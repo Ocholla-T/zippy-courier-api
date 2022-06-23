@@ -36,7 +36,7 @@ export async function createUser(
 
           const jwt = issueJWT(user)
 
-          response.status(200).json({ success: true, token: jwt.token, expiresIn: jwt.expires })
+          response.status(201).json({ success: true, token: jwt.token, expiresIn: jwt.expires })
         })
         .catch((error) => {
           console.error(`DB_Error: ${(error as Error).stack}`)
@@ -49,7 +49,11 @@ export async function createUser(
     })
 }
 
-export async function authenticateUser(request: Request, response: Response, next: NextFunction) {
+export async function authenticateUser(
+  request: Request,
+  response: Response,
+  next: NextFunction,
+): Promise<void> {
   const { username, password }: { username: string; password: string } = request.body
 
   pool
